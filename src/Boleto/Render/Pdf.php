@@ -34,10 +34,10 @@ class Pdf extends AbstractPdf implements PdfContract
      */
     private $showComprovante = false;
 
-    private $desc = 3; // tamanho célula descrição
-    private $cell = 4; // tamanho célula dado
-    private $fdes = 6; // tamanho fonte descrição
-    private $fcel = 8; // tamanho fonte célula
+    private $desc = 2; // tamanho célula descrição
+    private $cell = 3; // tamanho célula dado
+    private $fdes = 5; // tamanho fonte descrição
+    private $fcel = 6; // tamanho fonte célula
     private $small = 0.2; // tamanho barra fina
     private $totalBoletos = 0;
 
@@ -467,7 +467,7 @@ class Pdf extends AbstractPdf implements PdfContract
     {
         $this->Ln(3);
         $this->Cell(0, 15, '', 0, 1, 'L');
-        $this->i25($this->GetX(), $this->GetY() - 15, $this->boleto[$i]->getCodigoBarras(), 0.8, 17);
+        $this->i25($this->GetX(), $this->GetY() - 15, $this->boleto[$i]->getCodigoBarras(), 0.8, 10);
     }
 
     /**
@@ -546,13 +546,10 @@ class Pdf extends AbstractPdf implements PdfContract
 
         for ($i = 0; $i < $this->totalBoletos; $i++) {
             $this->SetDrawColor('0', '0', '0');
-            if ($i % 2 == 0) {
+            if ($i % 3 == 0) {
                 $this->AddPage();
             } else {
-                $this->Ln(3);
-                $this->traco('Corte na linha pontilhada', 4);
-                $this->Ln(4);
-
+                $this->traco('Corte na linha pontilhada', 0, 3);
             }
             $this->Bottom($i)->codigoBarras($i);
         }
