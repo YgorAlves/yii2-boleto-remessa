@@ -13,7 +13,7 @@ abstract class AbstractPdf extends FPDF
 
         // PAGE GROUP
     protected $NewPageGroup; // variable indicating whether a new group was requested
-    protected array $PageGroups = []; // variable containing the number of pages of the groups
+    protected $PageGroups = []; // variable containing the number of pages of the groups
     protected $CurrPageGroup; // variable containing the alias of the current page group
     
     protected function IncludeJS($script)
