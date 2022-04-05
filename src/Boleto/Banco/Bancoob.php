@@ -112,7 +112,8 @@ class Bancoob extends AbstractBoleto implements BoletoContract
         $campoLivre = Util::numberFormatGeral($this->getCarteira(), 1);
         $campoLivre .= Util::numberFormatGeral($this->getAgencia(), 4);
         $campoLivre .= Util::numberFormatGeral($this->getCarteira(), 2);
-        $campoLivre .= Util::numberFormatGeral($this->getConvenio(), 7);
+        // $campoLivre .= Util::numberFormatGeral($this->getConvenio(), 7);
+        $campoLivre .= Util::numberFormatGeral($this->getCodigoCliente(), 7);
         $campoLivre .= Util::numberFormatGeral($nossoNumero, 8);
         $campoLivre .= Util::numberFormatGeral($this->getParcela(), 3); //Numero da parcela - Não implementado
 
