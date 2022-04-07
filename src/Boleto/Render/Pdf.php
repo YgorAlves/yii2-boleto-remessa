@@ -293,14 +293,103 @@ class Pdf extends AbstractPdf implements PdfContract
      *
      * @return $this
      */
+    protected function Carne($i)
+    {
+        $this->SetLeftMargin(5);
+
+        $this->Image($this->boleto[$i]->getLogoBanco(), 5, ($this->GetY() - 2), 28);
+        $this->Cell(15, 6, '', 'B');
+        $this->SetFont($this->PadraoFont, 'B', 13);
+        $this->Cell(11, 6, $this->boleto[$i]->getCodigoBancoComDv(), 'L', 1, 'L');
+
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(20, $this->desc, 'Parcela/Plano', 'TLR');
+        $this->Cell(20, $this->desc, $this->_('Vencimento'), 'TLR', 1);
+
+        $this->SetFont($this->PadraoFont, 'B', $this->fcel);
+        $this->Cell(20, $this->cell, '001', 'LR');
+        $this->Cell(20, $this->cell, $this->_($this->boleto[$i]->getDataVencimento()->format('d/m/Y')), 'LR', 1, 'R');
+
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(40, $this->desc, $this->_('Agência/Código beneficiário'), 'TLR', 1);
+
+        $this->SetFont($this->PadraoFont, 'B', $this->fcel);
+        $this->Cell(40, $this->cell, $this->_($this->boleto[$i]->getAgenciaCodigoBeneficiario()), 'LR', 1, 'C');
+
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(40, $this->desc, $this->_('Espécie'), 'TLR', 1);
+
+        $this->SetFont($this->PadraoFont, 'B', $this->fcel);
+        $this->Cell(40, $this->cell, $this->_('R$'), 'LR', 1);
+
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(40, $this->desc, $this->_('Quantidade'), 'TLR', 1);
+        $this->Cell(40, $this->desc, $this->_(''), 'LR', 1);
+
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(40, $this->desc, $this->_('(=) Valor Documento'), 'TLR', 1);
+
+        $this->SetFont($this->PadraoFont, 'B', $this->fcel);
+        $this->Cell(40, $this->cell, $this->_(Util::nReal($this->boleto[$i]->getValor())), 'LR', 1, 'R');
+
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(40, $this->desc, $this->_('(-) Desconto / Abatimentos)'), 'TLR', 1);
+        $this->Cell(40, $this->desc, $this->_(''), 'LR', 1);
+
+        $this->Cell(40, $this->desc, $this->_('(-) Outras deduções'), 'TLR', 1);
+        $this->Cell(40, $this->desc, $this->_(''), 'LR', 1);
+
+        $this->Cell(40, $this->desc, $this->_('(+) Mora / Multa'), 'TLR', 1);
+        $this->Cell(40, $this->desc, $this->_(''), 'LR', 1);
+
+        $this->Cell(40, $this->desc, $this->_('(+) Outros acréscimos'), 'TLR', 1);
+        $this->Cell(40, $this->desc, $this->_(''), 'LR', 1);
+
+        $this->Cell(40, $this->desc, $this->_('(=) Valor cobrado'), 'TLR', 1);
+        $this->Cell(40, $this->desc, $this->_(''), 'LR', 1);
+
+        $this->Cell(40, $this->desc, $this->_('Nosso número'), 'TLR', 1);
+        $this->SetFont($this->PadraoFont, 'B', $this->fcel);
+        $this->Cell(40, $this->cell, $this->_($this->boleto[$i]->getNossoNumeroBoleto()), 'LR', 1, 'C');
+
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(40, $this->desc, $this->_('Nº documento'), 'TLR', 1);
+
+        $this->SetFont($this->PadraoFont, 'B', $this->fcel);
+        $this->Cell(40, $this->cell, $this->_($this->boleto[$i]->getNumeroDocumento()), 'LR', 1);
+        
+        $this->SetFont($this->PadraoFont, '', $this->fdes);
+        $this->Cell(40, $this->desc, $this->_('Pagador'), 'TLR', 1);
+
+        $this->SetFont($this->PadraoFont, 'B', $this->fcel);
+        $this->Cell(40, $this->cell, $this->_($this->boleto[$i]->getPagador()->getNome()), 'LBR', 1);
+        
+        $this->Cell(40, $this->cell, 'Recibo do Sacado', '', 1);
+
+        return $this;
+    }
+
+    /**
+     * @param integer $i
+     *
+     * @return $this
+     */
     protected function Bottom($i)
     {
-        $this->Image($this->boleto[$i]->getLogoBanco(), 20, ($this->GetY() - 2), 28);
+
+        $this->SetY(15);
+        if ($i == 2) {
+            $this->SetY(30);
+
+        }
+        $this->SetLeftMargin(50);
+
+        $this->Image($this->boleto[$i]->getLogoBanco(), 50, ($this->GetY() - 2), 28);
         $this->Cell(29, 6, '', 'B');
         $this->SetFont($this->PadraoFont, 'B', 13);
         $this->Cell(15, 6, $this->boleto[$i]->getCodigoBancoComDv(), 'LBR', 0, 'C');
         $this->SetFont($this->PadraoFont, 'B', 10);
-        $this->Cell(0, 6, $this->boleto[$i]->getLinhaDigitavel(), 'B', 1, 'R');
+        $this->Cell(0, 6, $this->boleto[$i]->getLinhaDigitavel(), 'B', 1, 'L');
 
         $this->SetFont($this->PadraoFont, '', $this->fdes);
         $this->Cell(120, $this->desc, $this->_('Local de pagamento'), 'TLR');
@@ -350,8 +439,8 @@ class Pdf extends AbstractPdf implements PdfContract
 
         $this->Cell(12, $this->desc, $this->_('Espécie'), 'TR');
         $this->Cell(28, $this->desc, $this->_('Quantidade'), 'TR');
-        $this->Cell(25, $this->desc, $this->_('Valor Documento'), 'TR');
-        $this->Cell(50, $this->desc, $this->_('Valor Documento'), 'TR', 1);
+        $this->Cell(25, $this->desc, $this->_('Valor'), 'TR');
+        $this->Cell(50, $this->desc, $this->_('(=) Valor Documento'), 'TR', 1);
 
         $this->SetFont($this->PadraoFont, 'B', $this->fcel);
 
@@ -551,7 +640,8 @@ class Pdf extends AbstractPdf implements PdfContract
             } else {
                 $this->traco('Corte na linha pontilhada', 0, 3);
             }
-            $this->Bottom($i)->codigoBarras($i);
+            $this->Carne($i)->Bottom($i)->codigoBarras($i);
+            // $this->Carne($i);
         }
         if ($dest == self::OUTPUT_SAVE) {
             $this->Output($save_path, $dest, $this->print);
