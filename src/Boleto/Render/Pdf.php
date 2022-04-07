@@ -294,9 +294,9 @@ class Pdf extends AbstractPdf implements PdfContract
      * @return $this
      */
     protected function Carne($i)
-    {
+    {        
         $this->SetLeftMargin(5);
-
+        
         $this->Image($this->boleto[$i]->getLogoBanco(), 5, ($this->GetY() - 2), 28);
         $this->Cell(15, 6, '', 'B');
         $this->SetFont($this->PadraoFont, 'B', 13);
@@ -377,11 +377,11 @@ class Pdf extends AbstractPdf implements PdfContract
     protected function Bottom($i)
     {
 
-        $this->SetY(15);
-        if ($i == 2) {
-            $this->SetY(30);
-
+        $this->SetY(14);
+        if ($i == 1) {
+            $this->SetY(105);
         }
+        
         $this->SetLeftMargin(50);
 
         $this->Image($this->boleto[$i]->getLogoBanco(), 50, ($this->GetY() - 2), 28);
