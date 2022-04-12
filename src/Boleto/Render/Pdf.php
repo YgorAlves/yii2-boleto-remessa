@@ -382,7 +382,7 @@ class Pdf extends AbstractPdf implements PdfContract
         if ($i % 3 == 0) {
             $this->SetY(14, false);
         } else {
-            $this->SetY($this->GetY()-68, false);
+            $this->SetY($this->GetY()-71, false);
         }
         
         $this->SetLeftMargin(60);
