@@ -277,11 +277,19 @@ class Bancoob extends AbstractRemessa implements RemessaContract
             $codJuros = 0;
         }
 
+        if ($boleto->getDesconto() > 0) {
+            $codDesconto = 1; //Valor fixo ate a data informada
+            $dataDesconto = Util::formatCnab(9, $boleto->getDataVencimento()->subDay()->format('dmY'), 8);
+        } else {
+            $codDesconto = 0; //nao conceder desconto
+            $dataDesconto = Util::formatCnab(9, 0, 8);
+        }
+
         $this->add(118, 118, $codJuros); //Código do juros de mora - 1 = Valor fixo ate a data informada – Informar o valor no campo “valor de desconto a ser concedido”.
         $this->add(119, 126, $dataJuros); //Data do juros de mora / data de vencimento do titulo
         $this->add(127, 141, Util::formatCnab(9, $juros, 15, 2)); //Valor da mora/dia ou Taxa mensal
-        $this->add(142, 142, '0');
-        $this->add(143, 150, '00000000'); 
+        $this->add(142, 142, $codDesconto);
+        $this->add(143, 150, $dataDesconto); 
         $this->add(151, 165, Util::formatCnab(9, $boleto->getDesconto(), 15, 2)); //Valor ou Percentual do desconto concedido //TODO
         $this->add(166, 180, Util::formatCnab(9, 0, 15, 2)); //Valor do IOF a ser recolhido
         $this->add(181, 195, Util::formatCnab(9, 0, 15, 2)); //Valor do abatimento
